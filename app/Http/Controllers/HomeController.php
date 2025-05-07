@@ -56,16 +56,20 @@ class HomeController extends Controller
         // POSTされたデータをDB（memosテーブル）に挿入
         // MEMOモデルにDBへ保存する命令を出す
 
-        // 同じタグがあるか確認
-        // $exist_tag = Tag::where('name', $data['tag'])->where('user_id', $data['user_id'])->first();
-        // if( empty($exist_tag['id']) ){
+        // 同じタグがあるか確認,
+        // whereメソッドを使って、nameカラムがPOSTされたタグ名と一致するレコードを取得
+        $exist_tag = Tag::where('name', $data['tag'])->where('user_id', $data['user_id'])->first();
+        //emptyは、変数が空かどうかを調べる関数→空であればtrueを返す→タグのIDを作る
+        if( empty($exist_tag['id']) ){
             //先にタグをインサート,タグテーブルにデータを挿入
             //insertGetIdは、挿入したレコードのIDを取得するためのメソッド(最初はタグのID＝1がとれる)、
             //とったIDをのちにメモテーブルに入れて、ひもづける
             $tag_id = Tag::insertGetId(['name' => $data['tag'], 'user_id' => $data['user_id']]);
-        // }else{
-        //     $tag_id = $exist_tag['id'];
-        // }
+        }else{
+            // タグがすでに存在する場合は、そのIDを取得
+            // $exist_tag['id']は、すでに存在するタグのIDを取得
+            $tag_id = $exist_tag['id'];
+        }
         // タグのIDが判明する
         // タグIDをmemosテーブルに入れてあげる
         // メモをmemosテーブルに挿入し、メモIDを取得
@@ -112,5 +116,18 @@ class HomeController extends Controller
             'status' => 1                 // ステータス（1: 有効）
         ]);
         return redirect()->route('home');
+    }
+    public function delete(Request $request, $id)
+    {
+        //ログインしているユーザーの情報をviewに渡す
+        $inputs = $request->all();
+        // POSTされたデータをDB（memosテーブル）に挿入
+        // MEMOモデルにDBへ保存する命令を出す
+        //idはURLのパラメータから取得
+        Memo::where('id', $id)->update([
+            //論理削除のため、ステータスを２に変更
+            'status' => 2                 // ステータス（2: 無効）
+        ]);
+        return redirect()->route('home')->with('success', 'メモを削除が完了しました。');
     }
 }
