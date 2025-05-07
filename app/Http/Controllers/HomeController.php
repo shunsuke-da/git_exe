@@ -27,11 +27,15 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
+    {   
+        //ログインしているユーザーの情報をviewに渡す
+        $user = Auth::user();
+        // dd($user); // Removed to prevent script termination
         //メモ一覧を取得する
-        $memos = Memo::where('user_id', Auth::id())->get();
-        dd($memos);
-        return view('home');
+        //DESCがついているので、最新のメモが一番上に来る
+        $memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
+        // dd($memos);
+        return view('home', compact('user', 'memos'));
     }
 
     public function create()
