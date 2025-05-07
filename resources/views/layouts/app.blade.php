@@ -70,7 +70,7 @@
                 </div>
             </div>
         </nav>
-
+    <!-- bootstrapのグリッドシステムを使用して、レイアウトを作成する -->
         <main class="main">
             @if(session('success'))
             <div class="alert alert-success" role="alert">

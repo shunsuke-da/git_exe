@@ -78,4 +78,17 @@ class HomeController extends Controller
         // リダイレクト処理
         return redirect()->route('home');
     }
+
+    public function edit($id)
+    {
+        //ログインしているユーザーの情報をviewに渡す
+        $user = Auth::user();
+        //メモ一覧を取得する
+        //whereでstatusが1のものを取得、ユーザーidで指定、ユーザーIDが今回のログインしているユーザーのIDと一致するものを取得
+        $memo = Memo::where('status', 1)->where('id',$id)->where('user_id', $user['id'])
+        //first()は、条件に一致する最初のレコードを取得
+        ->first();
+        // dd($memo);
+        return view('edit', compact('moemo', 'user'));
+    }
 }
