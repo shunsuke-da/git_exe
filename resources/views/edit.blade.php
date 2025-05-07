@@ -16,9 +16,18 @@
                 @csrf
                 <input type='hidden' name='user_id' value="{{ $user['id'] }}">
                 <div class="form-group">
-                    <textarea name='content' class="form-control" rows="10">{{ $memo['content'] }}</textarea>
+                     <textarea name='content' class="form-control"rows="10">{{ $memo['content'] }}</textarea>
                 </div>
-                <button type='submit' class="btn btn-primary btn-lg">保存</button>
+                <div class="form-group">
+                    <select class='form-control' name='tag_id'>
+                @foreach($tags as $tag)
+                    {{-- タグのIDを選択肢として表示 --}}
+                    {{--三項演算子、 $tag['id']がメモのtag_idと一致する場合、selected属性を付与 、一致しなければ空白--}}
+                    <option value="{{ $tag['id'] }}" {{ $tag['id'] == $memo['tag_id'] ? "selected" : "" }}>{{$tag['name']}}</option>
+                @endforeach
+                    </select>
+                </div>
+                <button type='submit' class="btn btn-primary btn-lg">更新</button>
             </form>
         </div>
     </div>
