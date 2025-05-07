@@ -117,4 +117,17 @@ class HomeController extends Controller
         ]);
         return redirect()->route('home');
     }
+    public function delete(Request $request, $id)
+    {
+        //ログインしているユーザーの情報をviewに渡す
+        $inputs = $request->all();
+        // POSTされたデータをDB（memosテーブル）に挿入
+        // MEMOモデルにDBへ保存する命令を出す
+        //idはURLのパラメータから取得
+        Memo::where('id', $id)->update([
+            //論理削除のため、ステータスを２に変更
+            'status' => 2                 // ステータス（2: 無効）
+        ]);
+        return redirect()->route('home')->with('success', 'メモを削除が完了しました。');
+    }
 }

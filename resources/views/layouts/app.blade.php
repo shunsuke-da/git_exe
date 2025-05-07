@@ -15,6 +15,9 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <!-- ゴミ箱アイコンが下のスタイルシートをよむとでる -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" 
+    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 </head>
 
@@ -71,6 +74,7 @@
             </div>
         </nav>
     <!-- bootstrapのグリッドシステムを使用して、レイアウトを作成する -->
+     <!-- 直下はアラート -->
         <main class="main">
             @if(session('success'))
             <div class="alert alert-success" role="alert">

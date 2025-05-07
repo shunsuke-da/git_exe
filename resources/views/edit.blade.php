@@ -8,7 +8,14 @@
 <div class="row justify-content-center ml-0 mr-0 h-100">
     {{ $user['name'] }}さんのメモ
     <div class="card w-100">
-        <div class="card-header">メモ編集</div>
+        <div class="card-header">
+            メモ編集
+            <form method='POST' action="/delete/{{$memo['id']}}" id='delete-form'>
+                @csrf
+                <!-- ゴミ箱ボタン→deletメソッドが走る（fontawesome + iタグ）<i id='delete-button' class="fas fa-trash"></i> -->
+                <button class='p-0 ml-auto' style='border:none; float: right;'><i id='delete-button' class="fas fa-trash"></i></button>
+            </form>  
+        </div>
         <div class="card-body">
             <form method='POST' action="{{ route('update', ['id' => $memo['id'] ] ) }}">
                 {{-- メモのIDを隠しフィールドとして送信 --}}
