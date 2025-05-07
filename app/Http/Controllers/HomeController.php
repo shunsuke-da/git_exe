@@ -103,13 +103,12 @@ class HomeController extends Controller
     {
         //ログインしているユーザーの情報をviewに渡す
         $inputs = $request->all();
-        dd($inputs); // Removed to prevent script termination
         // POSTされたデータをDB（memosテーブル）に挿入
         // MEMOモデルにDBへ保存する命令を出す
         //idはURLのパラメータから取得
         Memo::where('id', $id)->update([
             'content' => $inputs['content'], // メモの内容
-            'user_id' => $inputs['user_id'], // ユーザーID
+            'tag_id' => $inputs['tag_id'], // ユーザーID
             'status' => 1                 // ステータス（1: 有効）
         ]);
         return redirect()->route('home');
