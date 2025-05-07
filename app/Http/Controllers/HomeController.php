@@ -95,14 +95,15 @@ class HomeController extends Controller
         // compact() は、変数名をキーとして、その値を持つ連想配列を作成します。editはviewの名前で、compactは変数をビューに渡すための便利な方法です。
         // ここでは、$memo、$user、$memos という変数をビューに渡しています。
         // これにより、ビュー内で変数を簡単に使用できるようになります。
-        return view('edit', compact('memo', 'user', 'memos'));
+        $tags = Tag::where('user_id', $user['id'])->get();
+        return view('edit', compact('memo', 'user', 'memos', 'tags'));
     }
     //Requwestクラスを使うとホームに入力されたメモやIDをうけとれる
     public function update(Request $request, $id)
     {
         //ログインしているユーザーの情報をviewに渡す
         $inputs = $request->all();
-        // dd($inputs); // Removed to prevent script termination
+        dd($inputs); // Removed to prevent script termination
         // POSTされたデータをDB（memosテーブル）に挿入
         // MEMOモデルにDBへ保存する命令を出す
         //idはURLのパラメータから取得
