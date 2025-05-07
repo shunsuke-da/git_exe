@@ -96,7 +96,7 @@
                         <div class="card-body p-2">
                             {{-- @foreach($tags as $tag)配列のメモを分解して、数だけ繰り返す @endforeach で終了--}}
                             @foreach($memos as $memo)
-                              <p>{{ $memo['content'] }}</p>
+                              <a href="/edit/{{ $memo['id'] }}">{{ $memo['content'] }}<br></a>
                             @endforeach
                         </div>
                     </div>

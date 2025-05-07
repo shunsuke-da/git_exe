@@ -88,7 +88,27 @@ class HomeController extends Controller
         $memo = Memo::where('status', 1)->where('id',$id)->where('user_id', $user['id'])
         //first()は、条件に一致する最初のレコードを取得
         ->first();
-        // dd($memo);
-        return view('edit', compact('moemo', 'user'));
+        $memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
+        // Laravelの view() メソッドは、指定されたビュー（Bladeテンプレート）をレンダリングして返します。
+        // compact() は、変数名をキーとして、その値を持つ連想配列を作成します。editはviewの名前で、compactは変数をビューに渡すための便利な方法です。
+        // ここでは、$memo、$user、$memos という変数をビューに渡しています。
+        // これにより、ビュー内で変数を簡単に使用できるようになります。
+        return view('edit', compact('memo', 'user', 'memos'));
+    }
+    //Requwestクラスを使うとホームに入力されたメモやIDをうけとれる
+    public function update(Request $request, $id)
+    {
+        //ログインしているユーザーの情報をviewに渡す
+        $inputs = $request->all();
+        // dd($inputs); // Removed to prevent script termination
+        // POSTされたデータをDB（memosテーブル）に挿入
+        // MEMOモデルにDBへ保存する命令を出す
+        //idはURLのパラメータから取得
+        Memo::where('id', $id)->update([
+            'content' => $inputs['content'], // メモの内容
+            'user_id' => $inputs['user_id'], // ユーザーID
+            'status' => 1                 // ステータス（1: 有効）
+        ]);
+        return redirect()->route('home');
     }
 }
